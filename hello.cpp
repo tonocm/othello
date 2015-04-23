@@ -3,5 +3,5 @@
 
 int main()
 {
-  std::cout << "Hello World!";
+  printf("Sup Nigs\n");
 }
