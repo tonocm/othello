@@ -6,8 +6,8 @@
 class State{  
 public:
   enum Value { // Enum of possible states of a grid space
-    WHITE,
-    BLACK,
+    WHITE = 1,
+    BLACK = -1,
     FREE
   };
 
@@ -50,7 +50,11 @@ std::vector<State> actions (const State& state, int player) {
       for (size_t j = 0; j < 8; j++) {
         State next(&state);
         bool flag;
-        if next[i][j] == State::Value::FREE
+        if (next[i][j] == State::Value::FREE) {
+          for (size_t k = i + 1; k < 8; k++) {
+            
+          }
+        }
       }
     }
   }
