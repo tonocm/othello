@@ -39,6 +39,8 @@ private:
   int move[2];
 };
 
+/* player 1 is max player, player 0 is min player */
+void alphaBeta(board state, int depth, int alpha, int beta, int player){
 
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
@@ -152,13 +154,10 @@ std::vector<State> actions (const State& state, int player) {
   return ret;
 }
 
-/* player 1 is max player, player 0 is min player */
-void alphaBeta(State state, int depth, int alpha, int beta, int player){
-
-  int i;
+ int i;
   int actionsLength=0;
   
-  if(cutoffTes(state, depth))
+  if(cutoffTest(state, depth))
     return (eval(state),null);
 
   best = null; /* Handles early pruning or no possible moves */
@@ -192,6 +191,16 @@ void alphaBeta(State state, int depth, int alpha, int beta, int player){
     }
     return (beta, best);
   }
+}
+
+
+
+int cost(int [][] state)
+{
+     int cost = 0;
+     for(int i = 0; i<sizeof(state[0]); i++)
+	  for (int j = 0; j<sizeof(state[0]); j++)
+	       cost+=state[i][j];
 }
 
 int main(){
