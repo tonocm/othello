@@ -47,11 +47,18 @@ void alphaBeta(itn state, int depth, int alpha, int beta, int player){
   }
   else{ //min player
     for(i=0; i < actionsLength; i++){
+      (child, unused) = result(state, action);
+      value = alphaBeta(child, depth+1, alpha, beta, 0);
 
+      if(value < beta){
+        beta = value;
+        best = action;
+      }
+      if(beta <= alpha) /*alpha cut-off*/
+        break; 
     }
-
+    return (besta, best);
   }
-  
 }
 
 int main(){
