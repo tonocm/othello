@@ -1,7 +1,7 @@
 #include<iostream>
 #include<cstdio> //not actually needed
 #include<cstring>
-#include<time.h>
+#include<ctime>
 #include<vector>
 #include "state.h"
 
