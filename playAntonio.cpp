@@ -1,11 +1,23 @@
 #include<iostream>
-#include<cstdio> //not actually needed
+#include<cstdio>
 #include<time.h>
 
-class State{
+typedef signed char board[8][8];
+int BOARDLENGTH = 8;
 
+void makeBoard(board &b){
+  int i, j;
+  for(i=0; i < BOARDLENGTH; i++){
+    for(j=0; j < BOARDLENGTH;j++){
+      b[i][j] = 'o';
+    }
+  }
+}
+
+class State{
   State * parent;
   int something;
+  board current;
   
 public:
   State(){
@@ -18,22 +30,19 @@ public:
   }
 };
 
-
 /* player 1 is max player, player 0 is min player */
-void alphaBeta(itn state, int depth, int alpha, int beta, int player){
-
+void alphaBeta(board state, int depth, int alpha, int beta, int player){
   int i;
   int actionsLength=0;
   
-  if(cutoffTes(state, depth))
+  if(cutoffTest(state, depth))
     return (eval(state),null);
 
   best = null; /* Handles early pruning or no possible moves */
   if(player == 1){ //max player
     
     for(i=0; i < actionsLength; i++){
-
-      (child, unused) = result(state, action);
+      result(state, action); //links the result with its parent
       value = alphaBeta(child, depth+1, alpha, beta, 0);
 
       if(value > alpha){
