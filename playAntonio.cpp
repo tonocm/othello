@@ -22,13 +22,12 @@ public:
     }
     move[0] = move_x;
     move[1] = move_y;
-    someting = -1; //wrote whatever, just testing
   }
 
   State (State&& s) {
     memcpy(_state, s._state, sizeof(Value) * 64);
     parent = s.parent;
-    memcpy(move, s.move, sizeof(Value) * 64);
+    memcpy(move, s.move, sizeof(int) * 2);
   }
 
   Value *operator[] (size_t idx) {
@@ -38,28 +37,117 @@ private:
   Value _state[8][8];
   State *parent;
   int move[2];
-  int something;
 };
 
 
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
-  if (player == 1) {
-    // Build player1's move set
-    for (size_t i = 0; i < 8; i++) {
-      for (size_t j = 0; j < 8; j++) {
-        State next(&state);
-        bool flag;
-        if (next[i][j] == State::Value::FREE) {
-          for (size_t k = i + 1; k < 8; k++) {
-            
+  // Build player1's move set
+  for (size_t i = 0; i < 8; i++) {
+    for (size_t j = 0; j < 8; j++) {
+      State next(&state, i, j);
+      bool flag = false; // Have we flipped any pieces?
+      if (next[i][j] == State::Value::FREE) {
+        //Right
+        for (size_t k = i + 1; k < 8; k++) {
+          if (next[k][j] == player) {
+            for (size_t l = i + 1; l < k; l++) {
+              next[l][j] = player;
+            }
+            flag = true;
+            break;
           }
+          if (next[k][j] == State::Value::FREE)
+            break;
         }
+        //Up+Right
+        for (size_t k = 1; i + k < 8 && j + k < 8; k++) {
+          if (next[i + k][j + k] == player) {
+            for (size_t l = 1; l < k; l++) {
+              next[i + l][j + l] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i + k][j + k] == State::Value::FREE)
+            break;
+        }
+        //Up
+        for (size_t k = i + 1; k < 8; k++) {
+          if (next[i][k] == player) {
+            for (size_t l = j + 1; l < k; l++) {
+              next[i][l] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i][k] == State::Value::FREE)
+            break;
+        }
+        //Up+Left
+        for (size_t k = 1; i - k >= 0 && j + k < 8; k++) {
+          if (next[i - k][j + k] == player) {
+            for (size_t l = 1; l < k; l++) {
+              next[i - l][j + l] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i - k][j + k] == State::Value::FREE)
+            break;
+        }
+        //Left
+        for (size_t k = i - 1; k >= 0; k--) {
+          if (next[k][j] == player) {
+            for (size_t l = i - 1; l > k; l--) {
+              next[l][j] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[k][j] == State::Value::FREE)
+            break;
+        }
+        //Left+Down
+        for (size_t k = 1; i - k >= 0 && j - k >= 0; k--) {
+          if (next[i - k][j - k] == player) {
+            for (size_t l = 1; l < k; l++) {
+              next[i - l][j - l] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i - k][j - k] == State::Value::FREE)
+            break;
+        }
+        //Down
+        for (size_t k = j - 1; k >= 0; k--) {
+          if (next[i][k] == player) {
+            for (size_t l = j - 1; l > k; l--) {
+              next[l][j] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i][k] == State::Value::FREE)
+            break;
+        }
+        //Down+Right
+        for (size_t k = 1; i + k < 8 && j - k >= 0; k++) {
+          if (next[i + k][j - k] == player) {
+            for (size_t l = 1; l < k; l++) {
+              next[i + l][j - l] = player;
+            }
+            flag = true;
+            break;
+          }
+          if (next[i + k][j - k] == State::Value::FREE)
+            break;
+        }
+        if (flag)
+          ret.insert(next);
       }
     }
-  }
-  else {
-    // Build player2's move set
   }
   return ret;
 }
