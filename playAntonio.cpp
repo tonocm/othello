@@ -11,7 +11,7 @@ public:
   enum Value { // Enum of possible states of a grid space
     WHITE = 1,
     BLACK = -1,
-    FREE
+    FREE = 0
   };
 
   State() : State(NULL){
