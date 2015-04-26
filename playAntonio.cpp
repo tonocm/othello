@@ -1,38 +1,72 @@
-#include<iostream>
-#include<cstdio>
-#include<time.h>
-
-typedef signed char board[8][8];
-int BOARDLENGTH = 8;
-
-void makeBoard(board &b){
-  int i, j;
-  for(i=0; i < BOARDLENGTH; i++){
-    for(j=0; j < BOARDLENGTH;j++){
-      b[i][j] = 'o';
-    }
-  }
-}
-
-class State{
-  State * parent;
-  int something;
-  board current;
-  
+#include <iostream>
+#include <cstdio> //not actually needed
+#include <cstring>
+#include <time.h>
+#include <vector>
+class State{  
 public:
-  State(){
-    parent = null;
+  enum Value { // Enum of possible states of a grid space
+    WHITE = 1,
+    BLACK = -1,
+    FREE
+  };
+
+  State() : State(NULL){
+
+  }
+
+  State(const State *parent, int move_x, int move_y){
+    this->parent = parent;
+    if (parent) {
+      memcpy(_state, parent->_state, sizeof(Value) * 64);
+    }
+    move[0] = move_x;
+    move[1] = move_y;
     someting = -1; //wrote whatever, just testing
   }
-  State(State &parent){
-    this->parent = &parent;
-    someting = -1; //wrote whatever, just testing
+
+  State (State&& s) {
+    memcpy(_state, s._state, sizeof(Value) * 64);
+    parent = s.parent;
+    memcpy(move, s.move, sizeof(Value) * 64);
   }
+
+  Value *operator[] (size_t idx) {
+    return _state[idx];
+  }
+private:
+  Value _state[8][8];
+  State *parent;
+  int move[2];
+  int something;
 };
 
 /* player 1 is max player, player 0 is min player */
 void alphaBeta(board state, int depth, int alpha, int beta, int player){
-  int i;
+
+std::vector<State> actions (const State& state, int player) {
+  std::vector<State> ret;
+  if (player == 1) {
+    // Build player1's move set
+    for (size_t i = 0; i < 8; i++) {
+      for (size_t j = 0; j < 8; j++) {
+        State next(&state);
+        bool flag;
+        if (next[i][j] == State::Value::FREE) {
+          for (size_t k = i + 1; k < 8; k++) {
+            
+          }
+        }
+      }
+    }
+  }
+  else {
+    // Build player2's move set
+  }
+  return ret;
+}
+
+ int i;
   int actionsLength=0;
   
   if(cutoffTest(state, depth))
@@ -41,8 +75,9 @@ void alphaBeta(board state, int depth, int alpha, int beta, int player){
   best = null; /* Handles early pruning or no possible moves */
   if(player == 1){ //max player
     
-    for(i=0; i < actionsLength; i++){
-      result(state, action); //links the result with its parent
+    for(State action : actions(state, player)){ // This line requires C++11
+
+      (child, unused) = result(state, action);
       value = alphaBeta(child, depth+1, alpha, beta, 0);
 
       if(value > alpha){
@@ -55,7 +90,7 @@ void alphaBeta(board state, int depth, int alpha, int beta, int player){
     return (alpha, best);
   }
   else{ //min player
-    for(i=0; i < actionsLength; i++){
+    for(State action : actions(state, player)){ // This line also requires C++11
       (child, unused) = result(state, action);
       value = alphaBeta(child, depth+1, alpha, beta, 0);
 
@@ -66,7 +101,7 @@ void alphaBeta(board state, int depth, int alpha, int beta, int player){
       if(beta <= alpha) /*alpha cut-off*/
         break; 
     }
-    return (besta, best);
+    return (beta, best);
   }
 }
 
