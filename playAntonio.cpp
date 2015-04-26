@@ -1,8 +1,11 @@
-#include <iostream>
-#include <cstdio> //not actually needed
-#include <cstring>
-#include <time.h>
-#include <vector>
+#include<iosAtream>
+#include<cstdio> //not actually needed
+#include<cstring>
+#include<time.h>
+#include<vector>
+
+int SIZE = 8;
+
 class State{  
 public:
   enum Value { // Enum of possible states of a grid space
@@ -18,14 +21,14 @@ public:
   State(const State *parent, int move_x, int move_y){
     this->parent = parent;
     if (parent) {
-      memcpy(_state, parent->_state, sizeof(Value) * 64);
+      memcpy(_state, parent->_state, sizeof(Value) * SIZE * SIZE);
     }
     move[0] = move_x;
     move[1] = move_y;
   }
 
   State (State&& s) {
-    memcpy(_state, s._state, sizeof(Value) * 64);
+    memcpy(_state, s._state, sizeof(Value) * SIZE * SIZE);
     parent = s.parent;
     memcpy(move, s.move, sizeof(int) * 2);
   }
@@ -34,7 +37,7 @@ public:
     return _state[idx];
   }
 private:
-  Value _state[8][8];
+  Value _state[SIZE][SIZE];
   State *parent;
   int move[2];
 };
@@ -45,13 +48,13 @@ void alphaBeta(board state, int depth, int alpha, int beta, int player){
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
   // Build player1's move set
-  for (size_t i = 0; i < 8; i++) {
-    for (size_t j = 0; j < 8; j++) {
+  for (size_t i = 0; i < SIZE; i++) {
+    for (size_t j = 0; j < SIZE; j++) {
       State next(&state, i, j);
       bool flag = false; // Have we flipped any pieces?
       if (next[i][j] == State::Value::FREE) {
         //Right
-        for (size_t k = i + 1; k < 8; k++) {
+        for (size_t k = i + 1; k < SIZE; k++) {
           if (next[k][j] == player) {
             for (size_t l = i + 1; l < k; l++) {
               next[l][j] = player;
@@ -63,7 +66,7 @@ std::vector<State> actions (const State& state, int player) {
             break;
         }
         //Up+Right
-        for (size_t k = 1; i + k < 8 && j + k < 8; k++) {
+        for (size_t k = 1; i + k < SIZE && j + k < SIZE; k++) {
           if (next[i + k][j + k] == player) {
             for (size_t l = 1; l < k; l++) {
               next[i + l][j + l] = player;
@@ -75,7 +78,7 @@ std::vector<State> actions (const State& state, int player) {
             break;
         }
         //Up
-        for (size_t k = i + 1; k < 8; k++) {
+        for (size_t k = i + 1; k < SIZE; k++) {
           if (next[i][k] == player) {
             for (size_t l = j + 1; l < k; l++) {
               next[i][l] = player;
@@ -87,7 +90,7 @@ std::vector<State> actions (const State& state, int player) {
             break;
         }
         //Up+Left
-        for (size_t k = 1; i - k >= 0 && j + k < 8; k++) {
+        for (size_t k = 1; i - k >= 0 && j + k < SIZE; k++) {
           if (next[i - k][j + k] == player) {
             for (size_t l = 1; l < k; l++) {
               next[i - l][j + l] = player;
@@ -135,7 +138,7 @@ std::vector<State> actions (const State& state, int player) {
             break;
         }
         //Down+Right
-        for (size_t k = 1; i + k < 8 && j - k >= 0; k++) {
+        for (size_t k = 1; i + k < SIZE && j - k >= 0; k++) {
           if (next[i + k][j - k] == player) {
             for (size_t l = 1; l < k; l++) {
               next[i + l][j - l] = player;
