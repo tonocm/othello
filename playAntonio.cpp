@@ -6,6 +6,8 @@
 #include "state.h"
 
 State best = NULL:
+char COLOR;
+int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
@@ -119,7 +121,6 @@ std::vector<State> actions (const State& state, int player) {
   return ret;
 }
 
-
 /* player 1 is max player, player 0 is min player */
 void alphaBeta(State state, int depth, int alpha, int beta, int player){
   int i;
@@ -169,7 +170,12 @@ int cost(const State &state) {
       cost+=state[i][j];
 }
 
-int main(){ 
-  alphaBeta(arg1, arg2, arg3, arg4, arg5);
-  return 1;
+int main()
+{
+     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
+     if (COLOR == 'B')
+	  ;
+     if (COLOR == 'W')
+	  ;
+     return 0;
 }
