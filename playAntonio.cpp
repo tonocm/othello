@@ -198,12 +198,11 @@ std::vector<State> actions (const State& state, int player) {
 
 
 
-int cost(int [][] state)
-{
-     int cost = 0;
-     for(int i = 0; i<sizeof(state[0]); i++)
+int cost(int [][] state) {
+  int cost = 0;
+  for(int i = 0; i<sizeof(state[0]); i++)
 	  for (int j = 0; j<sizeof(state[0]); j++)
-	       cost+=state[i][j];
+      cost+=state[i][j];
 }
 
 int main(){
