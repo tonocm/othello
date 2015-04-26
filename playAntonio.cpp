@@ -11,14 +11,10 @@ public:
   State(){
     parent = null;
     someting = -1; //wrote whatever, just testing
-    
   }
   State(State &parent){
-    this->parent = parent;
+    this->parent = &parent;
     someting = -1; //wrote whatever, just testing
-  }
-  ~State(){ //destructor
-    free(this); // i dont even know if this actually will work
   }
 };
 
@@ -47,10 +43,12 @@ void alphaBeta(itn state, int depth, int alpha, int beta, int player){
       if(beta <= alpha)
         break; /* beta cut-off */
     }
-    
+    return (alpha, best);
   }
   else{ //min player
+    for(i=0; i < actionsLength; i++){
 
+    }
 
   }
   
