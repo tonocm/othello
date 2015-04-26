@@ -16,7 +16,7 @@ struct move
 
 void readMove(struct move *opponent_move)
 {
-     scanf("%d %d\n", &(opponent_move->x), &(opponent_move-y));
+     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 }
 
 std::vector<State> actions (const State& state, int player) {
