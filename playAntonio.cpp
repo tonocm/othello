@@ -8,6 +8,16 @@
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
+struct move
+{
+     int x;
+     int y;
+};
+
+void readMove(struct move *opponent_move)
+{
+     scanf("%d %d\n", &(opponent_move->x), &(opponent_move-y));
+}
 
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
