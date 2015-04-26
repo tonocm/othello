@@ -41,10 +41,7 @@ private:
   State *parent;
   int move[2];
 };
-
-/* player 1 is max player, player 0 is min player */
-void alphaBeta(board state, int depth, int alpha, int beta, int player){
-
+  
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
   // Build player1's move set
@@ -157,6 +154,9 @@ std::vector<State> actions (const State& state, int player) {
   return ret;
 }
 
+
+/* player 1 is max player, player 0 is min player */
+void alphaBeta(board state, int depth, int alpha, int beta, int player){
  int i;
   int actionsLength=0;
   
@@ -196,16 +196,14 @@ std::vector<State> actions (const State& state, int player) {
   }
 }
 
-int cost(int [][] state) {
+int cost(const State &state) {
   int cost = 0;
-  for(int i = 0; i<sizeof(state[0]); i++)
-    for (int j = 0; j<sizeof(state[0]); j++)
+  for(int i = 0; i<SIZE; i++)
+    for (int j = 0; j<SIZE; j++)
       cost+=state[i][j];
 }
 
-int main(){
-
+int main(){ 
   alphaBeta(arg1, arg2, arg3, arg4, arg5);
-  
   return 1;
 }
