@@ -5,6 +5,8 @@
 #include<vector>
 
 int SIZE = 8;
+char COLOR;
+int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 
 class State{  
 public:
@@ -203,7 +205,15 @@ int cost(const State &state) {
       cost+=state[i][j];
 }
 
-int main(){ 
-  alphaBeta(arg1, arg2, arg3, arg4, arg5);
-  return 1;
+
+
+
+int main()
+{
+     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
+     if (COLOR == 'B')
+	  ;
+     if (COLOR == 'W')
+	  ;
+     return 0;
 }
