@@ -106,6 +106,16 @@ void alphaBeta(State state, int depth, int alpha, int beta, int player){
   }
 }
 
+
+
+int cost(int [][] state)
+{
+     int cost = 0;
+     for(int i = 0; i<sizeof(state[0]); i++)
+	  for (int j = 0; j<sizeof(state[0]); j++)
+	       cost+=state[i][j];
+}
+
 int main(){
 
   alphaBeta(arg1, arg2, arg3, arg4, arg5);
