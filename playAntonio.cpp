@@ -1,47 +1,12 @@
-#include<iosAtream>
+#include<iostream>
 #include<cstdio> //not actually needed
 #include<cstring>
 #include<time.h>
 #include<vector>
+#include "state.h"
 
-int SIZE = 8;
+State best = NULL:
 
-class State{  
-public:
-  enum Value { // Enum of possible states of a grid space
-    WHITE = 1,
-    BLACK = -1,
-    FREE = 0
-  };
-
-  State() : State(NULL){
-
-  }
-
-  State(const State *parent, int move_x, int move_y){
-    this->parent = parent;
-    if (parent) {
-      memcpy(_state, parent->_state, sizeof(Value) * SIZE * SIZE);
-    }
-    move[0] = move_x;
-    move[1] = move_y;
-  }
-
-  State (State&& s) {
-    memcpy(_state, s._state, sizeof(Value) * SIZE * SIZE);
-    parent = s.parent;
-    memcpy(move, s.move, sizeof(int) * 2);
-  }
-
-  Value *operator[] (size_t idx) {
-    return _state[idx];
-  }
-private:
-  Value _state[SIZE][SIZE];
-  State *parent;
-  int move[2];
-};
-  
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
   // Build player1's move set
@@ -156,19 +121,20 @@ std::vector<State> actions (const State& state, int player) {
 
 
 /* player 1 is max player, player 0 is min player */
-void alphaBeta(board state, int depth, int alpha, int beta, int player){
- int i;
-  int actionsLength=0;
+void alphaBeta(State state, int depth, int alpha, int beta, int player){
+  int i;
+  int value;
   
-  if(cutoffTest(state, depth))
-    return (eval(state),null);
+  if(cutoffTest(state, depth)) //todo
+    return (eval(state),null);//todo
 
-  best = null; /* Handles early pruning or no possible moves */
+  best = NULL; /* Handles early pruning or no possible moves */
+
   if(player == 1){ //max player
     
     for(State action : actions(state, player)){ // This line requires C++11
 
-      (child, unused) = result(state, action);
+      (child, unused) = result(state, action); //todo
       value = alphaBeta(child, depth+1, alpha, beta, 0);
 
       if(value > alpha){
