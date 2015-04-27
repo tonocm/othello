@@ -8,14 +8,12 @@
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
-struct move
-{
+struct move {
      int x;
      int y;
 };
 
-void readMove(struct move *opponent_move)
-{
+void readMove(struct move *opponent_move) {
      scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 }
 
