@@ -9,7 +9,7 @@ State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 <<<<<<< HEAD
-clock_t move_start, now;
+clock_t move_start, game_start, now;
 
 struct move
 {
@@ -145,10 +145,12 @@ std::vector<State> actions (const State& state, int player) {
 
 
 //Returns 1 if time is up
-int cutOffTest(State state, int depth)
+int cutoffTest(State state, int depth)
 {
 	clock_t now = clock();
 	if ((now - start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
+		return 1;
+	if((now - game_start) / (CLOCKS_PER_SEC/1000) >=TIMELIMIT2)
 		return 1;
 	if (depth>DEPTHLIMIT)
 		return 1;
@@ -205,6 +207,7 @@ int cost(const State &state) {
 
 int main()
 {
+	game_start = clock();
      std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
      if (COLOR == 'B')
 	  ;
