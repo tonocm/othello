@@ -31,6 +31,7 @@ public:
     for(int i = 0; i<SIZE; i++)
       for(int j = 0; j<SIZE; j++)
 	_state[i][j] = board[i][j];
+  }
 
   Value *operator[] (size_t idx) {
     return _state[idx];
