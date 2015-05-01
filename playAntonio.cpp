@@ -244,8 +244,8 @@ int cost(const State &state) {
  * TODO: Fix double counting if a player controlls an entire edge
  * TODO: Fix stable pieces of color other than corner color not being counted
  */
-int count_stable (const State& state) {
-  int count = 0;
+pair<int, int> count_stable (const State& state) {
+  int count[] = {0, 0, 0};
   ssize_t minlen;
   State::Value color;
   
@@ -257,7 +257,7 @@ int count_stable (const State& state) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
@@ -269,7 +269,7 @@ int count_stable (const State& state) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
@@ -281,7 +281,7 @@ int count_stable (const State& state) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
@@ -293,12 +293,11 @@ int count_stable (const State& state) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
-
-  return count;
+  return make_pair(count[0], count[2]);
 }
 
 int main()
