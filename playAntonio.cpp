@@ -235,10 +235,10 @@ int count_stable (const State& state) {
   State::Value color;
   
   // Count from top left
-  if ((color = state[0][7]) != State::Value::FREE) {
+  if ((color = state[0][SIZE - 1]) != State::Value::FREE) {
     minlen = -1;
-    for (ssize_t i = 0; i < 8 && state[i][7] == color; i++) {
-      for (ssize_t j = 7; j > minlen; j--) {
+    for (ssize_t i = 0; i < SIZE && state[i][SIZE - 1] == color; i++) {
+      for (ssize_t j = SIZE - 1; j > minlen; j--) {
         if (state[i][j] != color)
           minlen = j;
         else
@@ -247,10 +247,10 @@ int count_stable (const State& state) {
     }
   }
   // Count from top right
-  if ((color = state[7][7]) != State::Value::FREE) {
+  if ((color = state[SIZE - 1][SIZE - 1]) != State::Value::FREE) {
     minlen = -1;
-    for (ssize_t i = 7; i >= 0 && state[i][7] == color; i--) {
-      for (ssize_t j = 7; j > minlen; j--) {
+    for (ssize_t i = SIZE - 1; i >= 0 && state[i][SIZE - 1] == color; i--) {
+      for (ssize_t j = SIZE - 1; j > minlen; j--) {
         if (state[i][j] != color)
           minlen = j;
         else
@@ -260,8 +260,8 @@ int count_stable (const State& state) {
   }
   // Count from bottom left
   if ((color = state[0][0]) != State::Value::FREE) {
-    minlen = 8;
-    for (ssize_t i = 0; i < 8 && state[i][0] == color; i++) {
+    minlen = SIZE;
+    for (ssize_t i = 0; i < SIZE && state[i][0] == color; i++) {
       for (ssize_t j = 0; j < minlen; j++) {
         if (state[i][j] != color)
           minlen = j;
@@ -271,9 +271,9 @@ int count_stable (const State& state) {
     }
   }
   // Count from bottom right
-  if ((color = state[7][0]) != State::Value::FREE) {
-    minlen = 8;
-    for (ssize_t i = 7; i >= 0 && state[i][0] == color; i--) {
+  if ((color = state[SIZE - 1][0]) != State::Value::FREE) {
+    minlen = SIZE;
+    for (ssize_t i = SIZE - 1; i >= 0 && state[i][0] == color; i--) {
       for (ssize_t j = 0; j < minlen; j++) {
         if (state[i][j] != color)
           minlen = j;
