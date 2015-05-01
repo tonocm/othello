@@ -23,21 +23,31 @@ struct move {
 
 void initBoard(int [] [] board)
 {
-  for(int i = 0; i<SIZE; i++)
-    for (int j = 0; j<SIZE; j++)
-      board[i][j] = 0;
+	for(int i = 0; i<SIZE; i++)
+		for (int j = 0; j<SIZE; j++)
+			board[i][j] = 0;
+  	board[3][3] = -1;
+	board[4][4] = -1;
+	board[3][4] = 1;
+	board[4][3] = 1;
+	return;
 }
-void readMove(struct move *opponent_move)
+int readMove(struct move *opponent_move)
 {
 	char movebuf[10];
 	if (fgets(movebuf, 10, stdin) != NULL)
 	{
 		start = clock();
 		if (strncmp(movebuf, "pass", 4)!=0)	
-    		scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
+    		return (!scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y)));
 	}
 }
 
+void updateState(int x, int y, player)
+{
+	currentState[x][y] = player;
+	return;
+}
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
   // Build player1's move set
@@ -289,17 +299,21 @@ int count_stable (const State& state) {
 int main()
 {
 	int player;
+	struct move enemy_move;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
 	initBoard();
     if (COLOR == 'B')
 	{
+		player = -1;
 		move_start = clock();
-		alphaBeta(state, 0, 
+		alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
 	}
-    if (COLOR == 'W')
-	{
-		readMove();
+	else
 		player = 1;
+    while (readMove(&enemy_move))
+	{	
+		updateState(enemy_move.x, enemy_move.y, -player);
+		alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
 	}
     return 0;
 }
