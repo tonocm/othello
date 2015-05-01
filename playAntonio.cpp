@@ -8,6 +8,8 @@
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
+clock_t move_start, now;
+
 struct move
 {
      int x;
@@ -16,7 +18,8 @@ struct move
 
 void readMove(struct move *opponent_move)
 {
-     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
+    scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
+	start = clock();
 }
 
 std::vector<State> actions (const State& state, int player) {
@@ -131,11 +134,22 @@ std::vector<State> actions (const State& state, int player) {
   return ret;
 }
 
+
+//Returns 1 if time is up
+int cutOffTest(State state, int depth)
+{
+	clock_t now = clock();
+	if ((now - start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
+		return 1;
+	if (depth>DEPTHLIMIT)
+		return 1;
+	return 0;
+}
+
 /* player 1 is max player, player 0 is min player */
 void alphaBeta(State state, int depth, int alpha, int beta, int player){
   int i;
   int value;
-  
   if(cutoffTest(state, depth)) //todo
     return (eval(state),null);//todo
 
