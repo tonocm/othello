@@ -19,6 +19,8 @@ struct move {
      int y;
 };
 
+
+
 void initBoard(int [] [] board)
 {
 	for(int i = 0; i<SIZE; i++)
@@ -41,7 +43,7 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int x, int y, player)
+void updateState(int [] [] board, int x, int y, player)
 {
 	currentState[x][y] = player;
 	return;
@@ -186,15 +188,15 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
-	int i;
-	int value;
-	if(cutoffTest(state, depth))
-	{
-		makeMove(best.move[0], best.move[1]);
-		return best;
-	}
-	best = NULL; /* Handles early pruning or no possible moves */
-	if(player == 1){ //max player
+    int i;
+    int value;
+    if(cutoffTest(state, depth))
+    {
+	makeMove(best.move[0], best.move[1]);
+	return best;
+    }
+    best = NULL; /* Handles early pruning or no possible moves */
+    if(player == 1){ //max player
     
     for(State action : actions(state, player)){ // This line requires C++11
       (child, unused) = result(state, action); //todo
@@ -215,7 +217,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha)  /* beta cut-off */
-        return (alpha, best);
+        return alpha;
     }
     else{ //min player
       if(value < beta){
@@ -223,7 +225,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha) /*alpha cut-off*/
-        return (beta, best);
+        return beta;
     }
   }
 }
