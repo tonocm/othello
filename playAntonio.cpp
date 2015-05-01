@@ -187,41 +187,33 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
+  static State best = NULL;
   int i;
   int value;
   if(cutoffTest(state, depth)) {
       makeMove(best.move[0], best.move[1]);
       return best;
   }
-  best = NULL; /* Handles early pruning or no possible moves */
-  if(player == 1){ //max player
-    
-    for(State action : actions(state, player)){ // This line requires C++11
-      (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
-      value = alphaBeta(child, depth+1, alpha, beta, -player);
 
+  for(State action : actions(state, player)){ // This line requires C++11
+    (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
+    value = alphaBeta(child, depth+1, alpha, beta, -player);
+    if(player == 1){ //max player 
       if(value > alpha){
         alpha = value;
         best = action;
       }
-      if(beta <= alpha)
-        break; /* beta cut-off */
+      if(beta <= alpha)  /* beta cut-off */
+        return (alpha, best);
     }
-    return (alpha, best);
-  }
-  else{ //min player
-    for(State action : actions(state, player)){ // This line also requires C++11
-      (child, unused) = result(state, action); // Same question as above
-      value = alphaBeta(child, depth+1, alpha, beta, -player);
-
+    else{ //min player
       if(value < beta){
         beta = value;
         best = action;
       }
       if(beta <= alpha) /*alpha cut-off*/
-        break; 
+        return (beta, best);
     }
-    return (beta, best);
   }
 }
 
