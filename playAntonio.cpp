@@ -14,12 +14,10 @@ clock_t move_start, game_start, now;
 
 int currentState[SIZE][SIZE];
 
-
 struct move {
      int x;
      int y;
 };
-
 
 void initBoard(int [] [] board)
 {
@@ -32,6 +30,7 @@ void initBoard(int [] [] board)
 	board[4][3] = 1;
 	return;
 }
+
 int readMove(struct move *opponent_move)
 {
 	char movebuf[10];
@@ -48,6 +47,7 @@ void updateState(int x, int y, player)
 	currentState[x][y] = player;
 	return;
 }
+
 std::vector<State> actions (const State& state, int player) {
   std::vector<State> ret;
   // Build player1's move set
@@ -160,7 +160,6 @@ std::vector<State> actions (const State& state, int player) {
   return ret;
 }
 
-
 //Returns 1 if time is up
 int cutoffTest(State state, int depth)
 {
@@ -188,15 +187,14 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
-	int i;
-	int value;
-	if(cutoffTest(state, depth))
-	{
-		makeMove(best.move[0], best.move[1]);
-    	return best;
-	}
-	best = NULL; /* Handles early pruning or no possible moves */
-	if(player == 1){ //max player
+  int i;
+  int value;
+  if(cutoffTest(state, depth)) {
+      makeMove(best.move[0], best.move[1]);
+      return best;
+  }
+  best = NULL; /* Handles early pruning or no possible moves */
+  if(player == 1){ //max player
     
     for(State action : actions(state, player)){ // This line requires C++11
       (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
