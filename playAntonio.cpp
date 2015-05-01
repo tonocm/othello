@@ -3,18 +3,30 @@
 #include<cstring>
 #include<ctime>
 #include<vector>
+#include <climits>
 #include "state.h"
 
+#define SIZE 8
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
+
+int currentState[SIZE][SIZE];
+
 
 struct move {
      int x;
      int y;
 };
 
+
+void initBoard(int [] [] board)
+{
+  for(int i = 0; i<SIZE; i++)
+    for (int j = 0; j<SIZE; j++)
+      board[i][j] = 0;
+}
 void readMove(struct move *opponent_move)
 {
 	char movebuf[10];
@@ -164,18 +176,19 @@ void makeMove(int x, int y)
 }
 
 /* player 1 is max player, player -1 is min player */
-State alphaBeta(State state, int depth, int alpha, int beta, int player){
-  int i;
-  int value;
-  if(cutoffTest(state, depth)) //todo
-    return best;//todo
-
-  best = NULL; /* Handles early pruning or no possible moves */
-
-  if(player == 1){ //max player
+State alphaBeta(State state, int depth, int alpha, int beta, int player)
+{
+	int i;
+	int value;
+	if(cutoffTest(state, depth))
+	{
+		makeMove(best.move[0], best.move[1]);
+    	return best;
+	}
+	best = NULL; /* Handles early pruning or no possible moves */
+	if(player == 1){ //max player
     
     for(State action : actions(state, player)){ // This line requires C++11
-
       (child, unused) = result(state, action); //todo
       value = alphaBeta(child, depth+1, alpha, beta, -player);
 
@@ -275,14 +288,18 @@ int count_stable (const State& state) {
 
 int main()
 {
+	int player;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
+	initBoard();
     if (COLOR == 'B')
 	{
-		game_start = clock();
+		move_start = clock();
+		alphaBeta(state, 0, 
 	}
     if (COLOR == 'W')
 	{
-	  ;
+		readMove();
+		player = 1;
 	}
     return 0;
 }
