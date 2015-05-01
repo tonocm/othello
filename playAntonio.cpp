@@ -8,19 +8,13 @@
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
-<<<<<<< HEAD
 clock_t move_start, game_start, now;
 
-struct move
-{
-=======
 struct move {
->>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
      int x;
      int y;
 };
 
-<<<<<<< HEAD
 void readMove(struct move *opponent_move)
 {
 	char movebuf[10];
@@ -30,8 +24,6 @@ void readMove(struct move *opponent_move)
 		if (strncmp(movebuf, "pass", 4)!=0)	
     		scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 	}
-=======
->>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
 }
 
 std::vector<State> actions (const State& state, int player) {
