@@ -211,6 +211,68 @@ int cost(const State &state) {
       cost+=state[i][j];
 }
 
+/*
+ * Counts stable pieces (those which cannot be fliped)
+ * TODO: Fix double counting if a player controlls an entire edge
+ * TODO: Fix stable pieces of color other than corner color not being counted
+ */
+int count_stable (const State& state) {
+  int count = 0;
+  ssize_t minlen;
+  State::Value color;
+  
+  // Count from top left
+  if ((color = state[0][7]) != State::Value::FREE) {
+    minlen = -1;
+    for (ssize_t i = 0; i < 8 && state[i][7] == color; i++) {
+      for (ssize_t j = 7; j > minlen; j--) {
+        if (state[i][j] != color)
+          minlen = j;
+        else
+          count++;
+      }
+    }
+  }
+  // Count from top right
+  if ((color = state[7][7]) != State::Value::FREE) {
+    minlen = -1;
+    for (ssize_t i = 7; i >= 0 && state[i][7] == color; i--) {
+      for (ssize_t j = 7; j > minlen; j--) {
+        if (state[i][j] != color)
+          minlen = j;
+        else
+          count++;
+      }
+    }
+  }
+  // Count from bottom left
+  if ((color = state[0][0]) != State::Value::FREE) {
+    minlen = 8;
+    for (ssize_t i = 0; i < 8 && state[i][0] == color; i++) {
+      for (ssize_t j = 0; j < minlen; j++) {
+        if (state[i][j] != color)
+          minlen = j;
+        else
+          count++;
+      }
+    }
+  }
+  // Count from bottom right
+  if ((color = state[7][0]) != State::Value::FREE) {
+    minlen = 8;
+    for (ssize_t i = 7; i >= 0 && state[i][0] == color; i--) {
+      for (ssize_t j = 0; j < minlen; j++) {
+        if (state[i][j] != color)
+          minlen = j;
+        else
+          count++;
+      }
+    }
+  }
+
+  return count;
+}
+
 int main()
 {
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
