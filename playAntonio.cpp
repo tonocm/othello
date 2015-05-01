@@ -1,25 +1,34 @@
 #include<iostream>
 #include<cstdio> //not actually needed
 #include<cstring>
-#include<time.h>
+#include<ctime>
 #include<vector>
 #include "state.h"
 
 State best = NULL:
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
+<<<<<<< HEAD
 clock_t move_start, now;
 
 struct move
 {
+=======
+struct move {
+>>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
      int x;
      int y;
 };
 
+<<<<<<< HEAD
 void readMove(struct move *opponent_move)
 {
     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 	start = clock();
+=======
+void readMove(struct move *opponent_move) {
+     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
+>>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
 }
 
 std::vector<State> actions (const State& state, int player) {
