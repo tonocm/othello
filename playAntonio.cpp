@@ -189,7 +189,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
 	if(player == 1){ //max player
     
     for(State action : actions(state, player)){ // This line requires C++11
-      (child, unused) = result(state, action); //todo
+      (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
       value = alphaBeta(child, depth+1, alpha, beta, -player);
 
       if(value > alpha){
@@ -203,7 +203,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
   }
   else{ //min player
     for(State action : actions(state, player)){ // This line also requires C++11
-      (child, unused) = result(state, action);
+      (child, unused) = result(state, action); // Same question as above
       value = alphaBeta(child, depth+1, alpha, beta, -player);
 
       if(value < beta){
