@@ -172,11 +172,11 @@ void makeMove(int x, int y)
 }
 
 /* player 1 is max player, player 0 is min player */
-void alphaBeta(State state, int depth, int alpha, int beta, int player){
+State alphaBeta(State state, int depth, int alpha, int beta, int player){
   int i;
   int value;
   if(cutoffTest(state, depth)) //todo
-    return (eval(state),null);//todo
+    return best;//todo
 
   best = NULL; /* Handles early pruning or no possible moves */
 
@@ -199,7 +199,7 @@ void alphaBeta(State state, int depth, int alpha, int beta, int player){
   else{ //min player
     for(State action : actions(state, player)){ // This line also requires C++11
       (child, unused) = result(state, action);
-      value = alphaBeta(child, depth+1, alpha, beta, 0);
+      value = alphaBeta(child, depth+1, alpha, beta, 1);
 
       if(value < beta){
         beta = value;

@@ -7,7 +7,7 @@ public:
     BLACK = -1,
         FREE = 0
   };
-
+	int move[2];
   State() : State(NULL){
 
   }
@@ -33,5 +33,4 @@ public:
 private:
   Value _state[SIZE][SIZE];
   State *parent;
-  int move[2];
 };
