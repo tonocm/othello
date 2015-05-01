@@ -157,6 +157,17 @@ int cutoffTest(State state, int depth)
 	return 0;
 }
 
+//Takes a pair of coordinates for the move
+//When x is set to -1, a pass is done
+void makeMove(int x, int y)
+{
+	if (x == -1)
+		printf("pass\n");
+	else
+		printf("%d %d\n", x, y);
+	return;
+}
+
 /* player 1 is max player, player 0 is min player */
 void alphaBeta(State state, int depth, int alpha, int beta, int player){
   int i;
