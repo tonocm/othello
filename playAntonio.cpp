@@ -23,8 +23,13 @@ struct move {
 <<<<<<< HEAD
 void readMove(struct move *opponent_move)
 {
-    scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
-	start = clock();
+	char movebuf[10];
+	if (fgets(movebuf, 10, stdin) != NULL)
+	{
+		start = clock();
+		if (strncmp(movebuf, "pass", 4)!=0)	
+    		scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
+	}
 =======
 >>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
 }
