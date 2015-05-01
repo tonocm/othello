@@ -26,8 +26,6 @@ void readMove(struct move *opponent_move)
     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 	start = clock();
 =======
-void readMove(struct move *opponent_move) {
-     scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y));
 >>>>>>> 2a7eee60d58927ccf42ef7562a7cf846b4098daf
 }
 
@@ -218,11 +216,14 @@ int cost(const State &state) {
 
 int main()
 {
-	game_start = clock();
-     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
-     if (COLOR == 'B')
+    std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
+    if (COLOR == 'B')
+	{
+		game_start = clock();
+	}
+    if (COLOR == 'W')
+	{
 	  ;
-     if (COLOR == 'W')
-	  ;
-     return 0;
+	}
+    return 0;
 }
