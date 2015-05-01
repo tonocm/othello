@@ -171,7 +171,7 @@ void makeMove(int x, int y)
 	return;
 }
 
-/* player 1 is max player, player 0 is min player */
+/* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player){
   int i;
   int value;
@@ -185,7 +185,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player){
     for(State action : actions(state, player)){ // This line requires C++11
 
       (child, unused) = result(state, action); //todo
-      value = alphaBeta(child, depth+1, alpha, beta, 0);
+      value = alphaBeta(child, depth+1, alpha, beta, -player);
 
       if(value > alpha){
         alpha = value;
@@ -199,7 +199,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player){
   else{ //min player
     for(State action : actions(state, player)){ // This line also requires C++11
       (child, unused) = result(state, action);
-      value = alphaBeta(child, depth+1, alpha, beta, 1);
+      value = alphaBeta(child, depth+1, alpha, beta, -player);
 
       if(value < beta){
         beta = value;
