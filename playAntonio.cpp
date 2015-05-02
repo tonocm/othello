@@ -22,11 +22,11 @@ void initBoard(State& board)
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
-			board[i][j] = 0;
-  	board[3][3] = -1;
-	board[4][4] = -1;
-	board[3][4] = 1;
-	board[4][3] = 1;
+                  board[i][j] = State::Value::FREE;
+  	board[3][3] = State::Value::BLACK;
+	board[4][4] = State::Value::BLACK;
+	board[3][4] = State::Value::WHITE;
+	board[4][3] = State::Value::WHITE;
 	return;
 }
 
@@ -40,15 +40,15 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int x, int y, int plyr)
+void updateState(int x, int y, int iplayer)
 {
   State::Value player;
-  if(plyr == 1)
+  if(iplayer == 1)
     player = State::WHITE;
   else
     player = State::BLACK;
   
-	currentState[x][y] = player;
+  currentState[x][y] = player;
   int xx, yy, xxx, yyy;
   bool flag;
 
@@ -220,11 +220,9 @@ void updateState(int x, int y, int plyr)
 	return;
 }
 
-std::vector<State> actions (const State& state, int plyr) {
-
-
+std::vector<State> actions (const State& state, int iplayer) {
   State::Value player;
-  if(plyr == 1)
+  if(iplayer == 1)
     player = State::WHITE;
   else
     player = State::BLACK;
