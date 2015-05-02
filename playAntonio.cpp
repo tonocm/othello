@@ -41,8 +41,14 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int x, int y, int player)
+void updateState(int x, int y, int plyr)
 {
+  Value player;
+  if(plyr == 1)
+    player = WHITE;
+  else
+    player = BLACK;
+  
 	currentState[x][y] = player;
   int xx, yy, xxx, yyy;
   bool flag;
@@ -215,7 +221,15 @@ void updateState(int x, int y, int player)
 	return;
 }
 
-std::vector<State> actions (const State& state, int player) {
+std::vector<State> actions (const State& state, int plyr) {
+
+
+  Value player;
+  if(plyr == 1)
+    player = WHITE;
+  else
+    player = BLACK;
+
   std::vector<State> ret;
   // Build player1's move set
   for (size_t i = 0; i < SIZE; i++) {

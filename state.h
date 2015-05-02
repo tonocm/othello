@@ -5,7 +5,7 @@ public:
   enum Value { // Enum of possible states of a grid space
     WHITE = 1,
     BLACK = -1,
-        FREE = 0
+    FREE = 0
   };
 	int move[2];
   State() : State(NULL){
