@@ -331,7 +331,7 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         if (flag)
-          ret.insert(next);
+          ret.push_back(next);
       }
     }
   }
@@ -339,10 +339,10 @@ std::vector<State> actions (const State& state, int iplayer) {
 }
 
 //Returns 1 if time is up
-int cutoffTest(State state, int depth)
+int cutoffTest(State& state, int depth)
 {
 	clock_t now = clock();
-	if ((now - start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
+	if ((now - move_start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
 		return 1;
 	if((now - game_start) / (CLOCKS_PER_SEC/1000) >=TIMELIMIT2)
 		return 1;
@@ -371,7 +371,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
   static State best = NULL;
   int i;
   int value;
-  vector<State> successors;
+  std::vector<State> successors;
   if(cutoffTest(state, depth)) {
       makeMove(best.move[0], best.move[1]);
       return best;
@@ -388,7 +388,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
       return alphaBeta(state, depth + 1, alpha, beta, -player);
   }
   for(State action : successors){ // This line requires C++11
-    value = alphaBeta(child, depth+1, alpha, beta, -player);
+    value = alphaBeta(action, depth+1, alpha, beta, -player);
     if(player == 1){ //max player 
       if(value > alpha){
         alpha = value;
@@ -420,7 +420,7 @@ int cost(const State &state) {
  * TODO: Fix double counting if a player controlls an entire edge
  * TODO: Fix stable pieces of color other than corner color not being counted
  */
-pair<int, int> count_stable (const State& state) {
+std::pair<int, int> count_stable (const State& state) {
   int count[] = {0, 0, 0};
   ssize_t minlen;
   State::Value color;
@@ -473,7 +473,7 @@ pair<int, int> count_stable (const State& state) {
       }
     }
   }
-  return make_pair(count[0], count[2]);
+  return std::make_pair(count[0], count[2]);
 }
 
 int main()
