@@ -32,11 +32,13 @@ void initBoard(State& board)
 int readMove(struct move *opponent_move)
 {
 	char movebuf[10];
-	if (fgets(movebuf, 10, stdin) != NULL)
-	{
-		if (strncmp(movebuf, "pass", 4)!=0)	
-                  return (!scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y)));
-	}
+	std::cin.getline(movebuf, 10);
+        if (!std::cin.good())
+          return 0;
+        if (strncmp(movebuf, "pass", 4)!=0)	
+          return (sscanf(movebuf, "%d %d\n", &(opponent_move->x), &(opponent_move->y)));
+        opponent_move->x = opponent_move->y = -1;
+        return 1;
 }
 
 void updateState(int x, int y, int iplayer)
@@ -480,7 +482,9 @@ int main()
 {
     int player;
     struct move enemy_move;
-    std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
+    char buf[48];
+    std::cin.getline(buf, 48);
+    sscanf(buf, "game %c %d %d %d\n", &COLOR, &DEPTHLIMIT, &TIMELIMIT1, &TIMELIMIT2);
     initBoard(currentState);
     game_start = clock();
     if (COLOR == 'B')
@@ -493,6 +497,7 @@ int main()
 	player = 1;
     while (readMove(&enemy_move))
     {
+        fprintf(stderr, "enemy move: %d %d\n", enemy_move.x, enemy_move.y);
 	move_start = clock();
 	updateState(enemy_move.x, enemy_move.y, -player);
 	alphaBeta(currentState, 0, INT_MAX, INT_MIN, player);
