@@ -43,10 +43,7 @@ int readMove(struct move *opponent_move)
 
 void updateState(int [] [] board, int x, int y, player)
 {
-	currentState.board[x][y] = player;
-
-  
-  
+	currentState.board[x][y] = player;  
 	return;
 }
 
@@ -303,7 +300,7 @@ int main()
     struct move enemy_move;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
     initBoard();
-	game_start = clock();
+    game_start = clock();
     if (COLOR == 'B')
     {
 	player = -1;
