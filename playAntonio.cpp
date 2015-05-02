@@ -43,9 +43,6 @@ int readMove(struct move *opponent_move)
 
 void updateState(int x, int y, player)
 {
-<<<<<<< HEAD
-	currentState.board[x][y] = player;  
-=======
 	currentState[x][y] = player;
   int xx, yy, xxx, yyy;
   bool flag;
