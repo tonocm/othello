@@ -23,12 +23,12 @@ OBJECTS = $(patsubst %.cpp,%.o,$(notdir $(wildcard *.cpp)))
 all: Othello
 
 Othello: $(OBJECTS)
-        $(CXX) $(LDFLAGS) -o Othello $(OBJECTS) $(LIBS)
+	$(CXX) $(LDFLAGS) -o Othello $(OBJECTS) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-        @rm -rf Othello *.o
+	@rm -rf Othello *.o
 
 .PHONY: clean
