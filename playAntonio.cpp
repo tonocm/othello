@@ -83,7 +83,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(xx=xx; xx < x; xx++)
+    for(; xx < x; xx++)
       currentState[xx][y] = player;
   }
   //else, no flips
@@ -102,7 +102,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(xx=xx; xx > x; xx--)
+    for(; xx > x; xx--)
       currentState[xx][y] = player;
   }
   //else, no flips
@@ -121,7 +121,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy > y; yy--)
+    for(; yy > y; yy--)
       currentState[xx][y] = player;
   }
   //else, no flips
@@ -141,7 +141,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy < y ; yy++)
+    for(; yy < y ; yy++)
       currentState[xx][y] = player;
   }
   //else, no flips
@@ -161,7 +161,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy > y; yy--){
+    for(; yy > y; yy--){
       --xx;
       currentState[xx][yy] = player;
     }
@@ -183,7 +183,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy > y; yy--){
+    for(; yy > y; yy--){
       ++xx;
       currentState[xx][yy] = player;
     }
@@ -205,7 +205,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy > y; yy++){
+    for(; yy > y; yy++){
       --xx;
       currentState[xx][yy] = player;
     }
@@ -227,7 +227,7 @@ void updateState(int x, int y, int iplayer)
     } 
   }
   if(!flag){
-    for(yy=yy; yy > y; yy++){
+    for(; yy > y; yy++){
       ++xx;
       currentState[xx][yy] = player;
     }
