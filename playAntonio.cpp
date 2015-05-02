@@ -212,7 +212,6 @@ void updateState(int x, int y, player)
   }
   //else, no flips
   
->>>>>>> 373b1f0868b2db81f8a10d4ab644206f09c5b5ec
 	return;
 }
 
