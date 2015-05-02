@@ -34,12 +34,16 @@ void printboard(State& state, int player, int turn, int X, int Y)
 }
 
 bool flip (State& state, move _move, move dir, State::Value player) {
+  bool flag;
+  
   for (ssize_t i = _move.x + dir.x, j = _move.y + dir.y; i < SIZE && i >= 0 && j < SIZE && j >= 0; i += dir.x, j += dir.y) {
     if (state[i][j] == player) {
+      flag = false;
       for (ssize_t k = _move.x + dir.x, l = _move.y + dir.y; k != i || l != j; k += dir.x, l += dir.y) {
         state[k][l] = player;
+        flag = true;
       }
-      return true;
+      return flag;
     }
     if (state[i][j] == State::Value::FREE)
       return false;
@@ -130,63 +134,6 @@ int cutoffTest(int depth)
 	return 0;
 }
 
-
-
-
-//Takes a pair of coordinates for the move
-//When x is set to -1, a pass is done
-void makeMove(int x, int y)
-{
-	if (x == -1)
-		printf("pass\n");
-	else
-		printf("%d %d\n", x, y);
-	return;
-}
-
-/* player 1 is max player, player -1 is min player */
-std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int player)
-{
-  std::pair<int, move> best;
-  int value;
-  std::vector<State> successors;
-  if(cutoffTest(depth)) {
-      makeMove(best.second.x, best.second.y);
-      return best;
-  }
-
-  successors = actions(state, player);
-  if (successors.size() == 0) {
-    if (depth == 0)
-    {
-	makeMove(-1, -1); //Pass
-	return std::make_pair(player == 1 ? alpha : beta,  move{.x = -1, .y = -1});
-    }
-    else
-      return alphaBeta(state, depth + 1, alpha, beta, -player);
-  }
-  for(State& action : successors){ // This line requires C++11
-    value = alphaBeta(action, depth + 1, alpha, beta, -player).first;
-    if(player == 1){ //max player 
-      if(value > alpha){
-        alpha = value;
-        best = std::make_pair(alpha, move{.x = action.move[0], .y = action.move[1]});
-      }
-      if(beta <= alpha)  /* beta cut-off */
-        return std::make_pair(beta, move{.x = state.move[0], .y = state.move[1]});
-    }
-    else{ //min player
-      if(value < beta){
-        beta = value;
-        best = std::make_pair(beta, move{.x = action.move[0], .y = action.move[1]});
-      }
-      if(beta <= alpha) /*alpha cut-off*/
-        return std::make_pair(alpha, move{.x = state.move[0], .y = state.move[1]});
-    }
-  }
-  return best;
-}
-
 int cost(State &state) {
   int cost = 0;
   for(int i = 0; i<SIZE; i++)
@@ -256,6 +203,62 @@ std::pair<int, int> count_stable (State& state) {
   return std::make_pair(count[0], count[2]);
 }
 
+//Takes a pair of coordinates for the move
+//When x is set to -1, a pass is done
+void makeMove(int x, int y)
+{
+	if (x == -1)
+		printf("pass\n");
+	else
+		printf("%d %d\n", y, x);
+}
+
+/* player 1 is max player, player -1 is min player */
+std::pair<int, move> alphaBeta(State &state, int depth, int limit, int alpha, int beta, int player)
+{
+  std::pair<int, move> best;
+  int value;
+  std::vector<State> successors;
+  if (depth > limit) {
+    std::pair<int, int> count = count_stable(state);
+    return std::make_pair(count.second - count.first,  move{.x = state.move[0], .y = state.move[1]});
+  }
+  if(cutoffTest(depth)) {
+      makeMove(best.second.x, best.second.y);
+      return best;
+  }
+
+  successors = actions(state, player);
+  if (successors.size() == 0) {
+    // fprintf(stderr, "No successors\n");
+    if (depth == 0)
+	return std::make_pair(player == 1 ? alpha : beta,  move{.x = -1, .y = -1});
+    else
+      return alphaBeta(state, depth + 1, limit, alpha, beta, -player);
+  }
+  for(State& action : successors){ // This line requires C++11
+    // printboard(action, player, depth, action.move[0], action.move[1]);
+    value = alphaBeta(action, depth + 1, limit, alpha, beta, -player).first;
+    if(player == 1){ //max player 
+      if(value > alpha){
+        alpha = value;
+        best = std::make_pair(alpha, move{.x = action.move[0], .y = action.move[1]});
+      }
+      if(beta <= alpha)  /* beta cut-off */
+        return std::make_pair(beta, move{.x = state.move[0], .y = state.move[1]});
+    }
+    else{ //min player
+      if(value < beta){
+        beta = value;
+        best = std::make_pair(beta, move{.x = action.move[0], .y = action.move[1]});
+      }
+      if(beta <= alpha) /*alpha cut-off*/
+        return std::make_pair(alpha, move{.x = state.move[0], .y = state.move[1]});
+    }
+  }
+  return best;
+}
+
 int main()
 {
     int player;
@@ -267,19 +270,25 @@ int main()
     game_start = clock();
     if (COLOR == 'B')
     {
+        move m;
 	player = -1;
 	move_start = clock();
-	alphaBeta(currentState, 0, INT_MAX, INT_MIN, player);
+	m = alphaBeta(currentState, 0, 4, INT_MIN, INT_MAX, player).second;
+        makeMove(m.x, m.y);
+        updateState(m.x, m.y, player);
     }
     else
 	player = 1;
     while (readMove(&enemy_move))
     {
-        fprintf(stderr, "enemy move: %d %d\n", enemy_move.x, enemy_move.y);
+        move m;
+        // fprintf(stderr, "enemy move: %d %d\n", enemy_move.x, enemy_move.y);
 	move_start = clock();
 	updateState(enemy_move.x, enemy_move.y, -player);
-        printboard(currentState, player, 0, enemy_move.x, enemy_move.y);
-	alphaBeta(currentState, 0, INT_MAX, INT_MIN, player);
+        // printboard(currentState, player, 0, enemy_move.x, enemy_move.y);
+	m = alphaBeta(currentState, 0, 4, INT_MIN, INT_MAX, player).second;
+        makeMove(m.x, m.y);
+        updateState(m.x, m.y, player);
     }
     return 0;
 }
