@@ -38,10 +38,10 @@ void initBoard(State& board)
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
                   board[i][j] = State::Value::FREE;
-  	board[3][3] = State::Value::BLACK;
-	board[4][4] = State::Value::BLACK;
-	board[3][4] = State::Value::WHITE;
-	board[4][3] = State::Value::WHITE;
+  	board[3][3] = State::Value::WHITE;
+	board[4][4] = State::Value::WHITE;
+	board[3][4] = State::Value::BLACK;
+	board[4][3] = State::Value::BLACK;
 	return;
 }
 
