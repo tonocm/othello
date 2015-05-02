@@ -477,7 +477,7 @@ int main()
     {
 	player = -1;
 	move_start = clock();
-	alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
+	alphaBeta(State s(currentState), 0, INT_MAX, INT_MIN, player);
     }
     else
 	player = 1;
@@ -485,7 +485,7 @@ int main()
     {
 	move_start = clock();
 	updateState(enemy_move.x, enemy_move.y, -player);
-	alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
+	alphaBeta(State s(currentState), 0, INT_MAX, INT_MIN, player);
     }
     return 0;
 }
