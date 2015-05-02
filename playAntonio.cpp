@@ -34,9 +34,9 @@ void printboard(State& state, int player, int turn, int X, int Y)
 }
 
 bool flip (State& state, move _move, move dir, State::Value player) {
-  for (ssize_t i = _move.x, j = _move.y; i < SIZE && i >= 0 && j < SIZE && j >= 0; i += dir.x, j += dir.y) {
+  for (ssize_t i = _move.x + dir.x, j = _move.y + dir.y; i < SIZE && i >= 0 && j < SIZE && j >= 0; i += dir.x, j += dir.y) {
     if (state[i][j] == player) {
-      for (ssize_t k = _move.x + dir.x, l = _move.y + dir.y; k != i && l != j; k += dir.x, l += dir.y) {
+      for (ssize_t k = _move.x + dir.x, l = _move.y + dir.y; k != i || l != j; k += dir.x, l += dir.y) {
         state[k][l] = player;
       }
       return true;
@@ -50,6 +50,7 @@ bool flip (State& state, move _move, move dir, State::Value player) {
 bool make_move (State& state, move _move, State::Value player) {
   bool flag = false;
   
+  state[_move.x][_move.y] = player;
   for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++)
       flag |= flip(state, _move, move{.x = i, .y = j}, player);
@@ -76,7 +77,7 @@ int readMove(struct move *opponent_move)
         if (!std::cin.good())
           return 0;
         if (strncmp(movebuf, "pass", 4)!=0)	
-          return (sscanf(movebuf, "%d %d\n", &(opponent_move->x), &(opponent_move->y)));
+          return (sscanf(movebuf, "%d %d\n", &(opponent_move->y), &(opponent_move->x)));
         opponent_move->x = opponent_move->y = -1;
         return 1;
 }
@@ -89,176 +90,8 @@ void updateState(int x, int y, int iplayer)
   else
     player = State::BLACK;
   
-  currentState[x][y] = player;
-  int xx, yy;
-  bool flag;
-
-  /* check left */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    --xx;
-    if(xx < 0)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(xx=xx; xx < x; xx++)
-      currentState[xx][y] = player;
-  }
-  //else, no flips
-  
-  /* check right */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    ++xx;
-    if(xx >= SIZE)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(xx=xx; xx > x; xx--)
-      currentState[xx][y] = player;
-  }
-  //else, no flips
-
-  /* check down */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    ++yy;
-    if(yy >= SIZE)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy > y; yy--)
-      currentState[xx][y] = player;
-  }
-  //else, no flips
-
-  
-  /* check up */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    --yy;
-    if(yy < 0)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy < y ; yy++)
-      currentState[xx][y] = player;
-  }
-  //else, no flips
-  
-  /* check down-right */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    ++yy;
-    ++xx;
-    if(yy >= SIZE || xx >= SIZE)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy > y; yy--){
-      --xx;
-      currentState[xx][yy] = player;
-    }
-  }
-  //else, no flips
-  
-  /* check down-left */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    ++yy;
-    --xx;
-    if(yy >= SIZE || xx < 0)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy > y; yy--){
-      ++xx;
-      currentState[xx][yy] = player;
-    }
-  }
-  //else, no flips
-
-  /* up-right */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    --yy;
-    ++xx;
-    if(yy < 0 || xx >= SIZE)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy > y; yy++){
-      --xx;
-      currentState[xx][yy] = player;
-    }
-  }
-  //else, no flips
-  
-  /* check up-left */
-  flag = true;
-  xx = x;
-  yy = y;
-  while(flag){
-    --yy;
-    --xx;
-    if(yy < 0 || xx < 0)
-      break;
-    
-    if(currentState[xx][yy] == player){
-      flag = false;
-    } 
-  }
-  if(!flag){
-    for(yy=yy; yy > y; yy++){
-      ++xx;
-      currentState[xx][yy] = player;
-    }
-  }
-  //else, no flips
-  
-	return;
+  make_move(currentState, move{.x = x, .y = y}, player);
+  return;
 }
 
 std::vector<State> actions (const State& state, int iplayer) {
