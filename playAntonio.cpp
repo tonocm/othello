@@ -41,9 +41,181 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int [] [] board, int x, int y, player)
+void updateState(int x, int y, player)
 {
+<<<<<<< HEAD
 	currentState.board[x][y] = player;  
+=======
+	currentState[x][y] = player;
+  int xx, yy, xxx, yyy;
+  bool flag;
+
+  /* check left */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    --xx;
+    if(xx < 0)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(xx=xx; xx < x; xx++)
+      currentState[xx][y] = player;
+  }
+  //else, no flips
+  
+  /* check right */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    ++xx;
+    if(xx >= SIZE)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(xx=xx; xx > x; xx--)
+      currentState[xx][y] = player;
+  }
+  //else, no flips
+
+  /* check down */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    ++yy;
+    if(yy >= SIZE)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy > y; yy--)
+      currentState[xx][y] = player;
+  }
+  //else, no flips
+
+  
+  /* check up */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    --yy;
+    if(yy < 0)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy < y ; yy++)
+      currentState[xx][y] = player;
+  }
+  //else, no flips
+  
+  /* check down-right */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    ++yy;
+    ++xx;
+    if(yy >= SIZE || xx >= SIZE)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy > y; yy--){
+      --xx;
+      currentState[xx][yy] = player;
+    }
+  }
+  //else, no flips
+  
+  /* check down-left */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    ++yy;
+    --xx;
+    if(yy >= SIZE || xx < 0)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy > y; yy--){
+      ++xx;
+      currentState[xx][yy] = player;
+    }
+  }
+  //else, no flips
+
+  /* up-right */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    --yy;
+    ++xx;
+    if(yy < 0 || xx >= SIZE)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy > y; yy++){
+      --xx;
+      currentState[xx][yy] = player;
+    }
+  }
+  //else, no flips
+  
+  /* check up-left */
+  flag = true;
+  xx = x;
+  yy = y;
+  while(flag){
+    --yy;
+    --xx;
+    if(yy < 0 || xx < 0)
+      break;
+    
+    if(currentState[xx][yy] == player){
+      flag = false;
+    } 
+  }
+  if(!flag){
+    for(yy=yy; yy > y; yy++){
+      ++xx;
+      currentState[xx][yy] = player;
+    }
+  }
+  //else, no flips
+  
+>>>>>>> 373b1f0868b2db81f8a10d4ab644206f09c5b5ec
 	return;
 }
 
@@ -213,7 +385,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha)  /* beta cut-off */
-        return alpha;
+        return beta;
     }
     else{ //min player
       if(value < beta){
@@ -221,7 +393,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha) /*alpha cut-off*/
-        return beta;
+        return alpha;
     }
   }
 }
