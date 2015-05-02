@@ -44,9 +44,9 @@ void updateState(int x, int y, int plyr)
 {
   State::Value player;
   if(plyr == 1)
-    player = WHITE;
+    player = State::WHITE;
   else
-    player = BLACK;
+    player = State::BLACK;
   
 	currentState[x][y] = player;
   int xx, yy, xxx, yyy;
@@ -225,9 +225,9 @@ std::vector<State> actions (const State& state, int plyr) {
 
   State::Value player;
   if(plyr == 1)
-    player = WHITE;
+    player = State::WHITE;
   else
-    player = BLACK;
+    player = State::BLACK;
 
   std::vector<State> ret;
   // Build player1's move set
