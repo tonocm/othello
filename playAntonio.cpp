@@ -380,13 +380,10 @@ std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int
   if (successors.size() == 0) {
     if (depth == 0)
     {
-<<<<<<< HEAD
 	makeMove(-1, -1); //Pass
 	return NULL;
-=======
 	makeMove(-1, -1);
 	return std::make_pair(player == 1 ? alpha : beta,  move{.x = -1, .y = -1});
->>>>>>> 7ad1b727b432f3ab596a35b4863f7409d2464c44
     }
     else
       return alphaBeta(state, depth + 1, alpha, beta, -player);
