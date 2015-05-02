@@ -12,14 +12,14 @@ char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
 
-State currentState;
+State currentState(NULL, -1, -1);
 
 struct move {
      int x;
      int y;
 };
 
-void initBoard(State board[SIZE][SIZE])
+void initBoard(State& board)
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
