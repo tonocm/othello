@@ -42,7 +42,12 @@ int readMove(struct move *opponent_move)
 
 void updateState(int x, int y, int iplayer)
 {
-  State::Value player = static_cast<State::Value>(iplayer);
+  State::Value player;
+  if(iplayer == 1)
+    player = State::WHITE;
+  else
+    player = State::BLACK;
+  
   currentState[x][y] = player;
   int xx, yy, xxx, yyy;
   bool flag;
@@ -216,7 +221,12 @@ void updateState(int x, int y, int iplayer)
 }
 
 std::vector<State> actions (const State& state, int iplayer) {
-  State::Value player = static_cast<State::Value>(iplayer);
+  State::Value player;
+  if(iplayer == 1)
+    player = State::WHITE;
+  else
+    player = State::BLACK;
+
   std::vector<State> ret;
   // Build player1's move set
   for (size_t i = 0; i < SIZE; i++) {
