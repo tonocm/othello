@@ -42,7 +42,7 @@ int readMove(struct move *opponent_move)
 
 void updateState(int x, int y, int plyr)
 {
-  Value player;
+  State::Value player;
   if(plyr == 1)
     player = WHITE;
   else
@@ -223,7 +223,7 @@ void updateState(int x, int y, int plyr)
 std::vector<State> actions (const State& state, int plyr) {
 
 
-  Value player;
+  State::Value player;
   if(plyr == 1)
     player = WHITE;
   else
