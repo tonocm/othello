@@ -6,7 +6,6 @@
 #include <climits>
 #include "state.h"
 
-State best = NULL;
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
