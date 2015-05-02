@@ -468,7 +468,7 @@ int main()
     int player;
     struct move enemy_move;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
-    initBoard();
+    initBoard(currentBoard);
     game_start = clock();
     if (COLOR == 'B')
     {
