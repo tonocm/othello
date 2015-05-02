@@ -23,7 +23,7 @@ OBJECTS = $(patsubst %.cpp,%.o,$(notdir $(wildcard *.cpp)))
 all: play
 
 play: $(OBJECTS)
-	$(CXX) $(LDFLAGS) -o Othello $(OBJECTS) $(LIBS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
