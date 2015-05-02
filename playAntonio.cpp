@@ -380,8 +380,6 @@ std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int
     if (depth == 0)
     {
 	makeMove(-1, -1); //Pass
-	return NULL;
-	makeMove(-1, -1);
 	return std::make_pair(player == 1 ? alpha : beta,  move{.x = -1, .y = -1});
     }
     else
