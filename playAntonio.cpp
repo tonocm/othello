@@ -331,7 +331,7 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         if (flag)
-          ret.push_back(next);
+          ret.push_back(std::move(next));
       }
     }
   }
@@ -366,14 +366,14 @@ void makeMove(int x, int y)
 }
 
 /* player 1 is max player, player -1 is min player */
-State alphaBeta(State &state, int depth, int alpha, int beta, int player)
+std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int player)
 {
-  static State best = NULL;
+  std::pair<int, move> best;
   int i;
   int value;
   std::vector<State> successors;
   if(cutoffTest(state, depth)) {
-      makeMove(best.move[0], best.move[1]);
+      makeMove(best.second.y, best.second.y);
       return best;
   }
 
@@ -387,28 +387,28 @@ State alphaBeta(State &state, int depth, int alpha, int beta, int player)
     else
       return alphaBeta(state, depth + 1, alpha, beta, -player);
   }
-  for(State action : successors){ // This line requires C++11
-    value = alphaBeta(action, depth+1, alpha, beta, -player);
+  for(State& action : successors){ // This line requires C++11
+    value = alphaBeta(action, depth + 1, alpha, beta, -player).first;
     if(player == 1){ //max player 
       if(value > alpha){
         alpha = value;
-        best = action;
+        best = std::make_pair(alpha, move{.x = action.move[0], .y = action.move[1]});
       }
       if(beta <= alpha)  /* beta cut-off */
-        return beta;
+        return std::make_pair(beta, move{.x = state.move[0], .y = state.move[1]});
     }
     else{ //min player
       if(value < beta){
         beta = value;
-        best = action;
+        best = std::make_pair(beta, move{.x = action.move[0], .y = action.move[1]});
       }
       if(beta <= alpha) /*alpha cut-off*/
-        return alpha;
+        return std::make_pair(alpha, move{.x = state.move[0], .y = state.move[1]});
     }
   }
 }
 
-int cost(const State &state) {
+int cost(State &state) {
   int cost = 0;
   for(int i = 0; i<SIZE; i++)
     for (int j = 0; j<SIZE; j++)
@@ -420,7 +420,7 @@ int cost(const State &state) {
  * TODO: Fix double counting if a player controlls an entire edge
  * TODO: Fix stable pieces of color other than corner color not being counted
  */
-std::pair<int, int> count_stable (const State& state) {
+std::pair<int, int> count_stable (State& state) {
   int count[] = {0, 0, 0};
   ssize_t minlen;
   State::Value color;
