@@ -373,7 +373,7 @@ std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int
   int value;
   std::vector<State> successors;
   if(cutoffTest(depth)) {
-      makeMove(best.second.y, best.second.y);
+      makeMove(best.second.x, best.second.y);
       return best;
   }
 
