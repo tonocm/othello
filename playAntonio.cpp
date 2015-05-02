@@ -17,6 +17,22 @@ struct move {
      int y;
 };
 
+void printboard(State& state, int player, int turn, int X, int Y)
+{
+    int i, j, num;
+    num = 64;
+
+    fprintf(stderr, "%2d. %c plays (%2d, %2d)\n", turn, (player==-1 ? 'B' : 'W'), X, Y);
+    for(i = 0; i < SIZE; i ++) {
+        for(j = 0; j < SIZE; j++){
+            fprintf(stderr, "%4d", (int)state[i][j]);
+            if((int)state[i][j]) num --;
+        }
+        printf("\n");
+    }
+    printf("number of blanks = %d\n", num);
+}
+
 void initBoard(State& board)
 {
 	for(int i = 0; i<SIZE; i++)
@@ -500,6 +516,7 @@ int main()
         fprintf(stderr, "enemy move: %d %d\n", enemy_move.x, enemy_move.y);
 	move_start = clock();
 	updateState(enemy_move.x, enemy_move.y, -player);
+        printboard(currentState, player, 0, enemy_move.x, enemy_move.y);
 	alphaBeta(currentState, 0, INT_MAX, INT_MIN, player);
     }
     return 0;
