@@ -19,9 +19,13 @@ struct move {
      int y;
 };
 
+<<<<<<< HEAD
 
 
 void initBoard(int [] [] board)
+=======
+void initBoard(int board[SIZE][SIZE])
+>>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
@@ -188,6 +192,7 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
+<<<<<<< HEAD
     int i;
     int value;
     if(cutoffTest(state, depth))
@@ -197,10 +202,22 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
     }
     best = NULL; /* Handles early pruning or no possible moves */
     if(player == 1){ //max player
+=======
+	int i;
+	int value;
+	if(cutoffTest(state, depth))
+	{
+		makeMove(best.move[0], best.move[1]);
+		return best;
+	}
+	best = NULL; /* Handles early pruning or no possible moves */
+	if(player == 1){ //max player
+>>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
     
     for(State action : actions(state, player)){ // This line requires C++11
       (child, unused) = result(state, action); //todo
       value = alphaBeta(child, depth+1, alpha, beta, -player);
+<<<<<<< HEAD
   static State best = NULL;
   int i;
   int value;
@@ -208,6 +225,9 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
       makeMove(best.move[0], best.move[1]);
       return best;
   }
+=======
+
+>>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
   for(State action : actions(state, player)){ // This line requires C++11
     (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
     value = alphaBeta(child, depth+1, alpha, beta, -player);
@@ -242,61 +262,60 @@ int cost(const State &state) {
  * TODO: Fix double counting if a player controlls an entire edge
  * TODO: Fix stable pieces of color other than corner color not being counted
  */
-int count_stable (const State& state) {
-  int count = 0;
+pair<int, int> count_stable (const State& state) {
+  int count[] = {0, 0, 0};
   ssize_t minlen;
   State::Value color;
   
   // Count from top left
-  if ((color = state[0][7]) != State::Value::FREE) {
+  if ((color = state[0][SIZE - 1]) != State::Value::FREE) {
     minlen = -1;
-    for (ssize_t i = 0; i < 8 && state[i][7] == color; i++) {
-      for (ssize_t j = 7; j > minlen; j--) {
+    for (ssize_t i = 0; i < SIZE && state[i][SIZE - 1] == color; i++) {
+      for (ssize_t j = SIZE - 1; j > minlen; j--) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
   // Count from top right
-  if ((color = state[7][7]) != State::Value::FREE) {
+  if ((color = state[SIZE - 1][SIZE - 1]) != State::Value::FREE) {
     minlen = -1;
-    for (ssize_t i = 7; i >= 0 && state[i][7] == color; i--) {
-      for (ssize_t j = 7; j > minlen; j--) {
+    for (ssize_t i = SIZE - 1; i >= 0 && state[i][SIZE - 1] == color; i--) {
+      for (ssize_t j = SIZE - 1; j > minlen; j--) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
   // Count from bottom left
   if ((color = state[0][0]) != State::Value::FREE) {
-    minlen = 8;
-    for (ssize_t i = 0; i < 8 && state[i][0] == color; i++) {
+    minlen = SIZE;
+    for (ssize_t i = 0; i < SIZE && state[i][0] == color; i++) {
       for (ssize_t j = 0; j < minlen; j++) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
   // Count from bottom right
-  if ((color = state[7][0]) != State::Value::FREE) {
-    minlen = 8;
-    for (ssize_t i = 7; i >= 0 && state[i][0] == color; i--) {
+  if ((color = state[SIZE - 1][0]) != State::Value::FREE) {
+    minlen = SIZE;
+    for (ssize_t i = SIZE - 1; i >= 0 && state[i][0] == color; i--) {
       for (ssize_t j = 0; j < minlen; j++) {
         if (state[i][j] != color)
           minlen = j;
         else
-          count++;
+          count[color + 1]++;
       }
     }
   }
-
-  return count;
+  return make_pair(count[0], count[2]);
 }
 
 int main()
