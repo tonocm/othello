@@ -5,9 +5,10 @@ public:
   enum Value { // Enum of possible states of a grid space
     WHITE = 1,
     BLACK = -1,
-        FREE = 0
+    FREE = 0
   };
-	int move[2];
+
+  int move[2];
   State() : State(NULL){
 
   }
@@ -32,7 +33,7 @@ public:
     parent = NULL;
     move[0] = move[1] = -1;
   }
-111
+
   Value *operator[] (size_t idx) {
     return _state[idx];
   }
