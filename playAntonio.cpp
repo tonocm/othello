@@ -19,13 +19,9 @@ struct move {
      int y;
 };
 
-<<<<<<< HEAD
 
 
-void initBoard(int [] [] board)
-=======
 void initBoard(int board[SIZE][SIZE])
->>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
@@ -43,7 +39,7 @@ int readMove(struct move *opponent_move)
 	if (fgets(movebuf, 10, stdin) != NULL)
 	{
 		if (strncmp(movebuf, "pass", 4)!=0)	
-    		return (!scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y)));
+                  return (!scanf("%d %d\n", &(opponent_move->x), &(opponent_move->y)));
 	}
 }
 
@@ -193,6 +189,7 @@ void makeMove(int x, int y)
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     int i;
     int value;
     if(cutoffTest(state, depth))
@@ -218,6 +215,8 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
       (child, unused) = result(state, action); //todo
       value = alphaBeta(child, depth+1, alpha, beta, -player);
 <<<<<<< HEAD
+=======
+>>>>>>> 063cf5e763db3e7dbbddf1d8089de18891f92ed9
   static State best = NULL;
   int i;
   int value;
@@ -225,9 +224,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
       makeMove(best.move[0], best.move[1]);
       return best;
   }
-=======
-
->>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
+  
   for(State action : actions(state, player)){ // This line requires C++11
     (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
     value = alphaBeta(child, depth+1, alpha, beta, -player);
