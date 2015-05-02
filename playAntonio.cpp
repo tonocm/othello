@@ -49,7 +49,7 @@ void updateState(int x, int y, int iplayer)
     player = State::BLACK;
   
   currentState[x][y] = player;
-  int xx, yy, xxx, yyy;
+  int xx, yy;
   bool flag;
 
   /* check left */
@@ -229,15 +229,15 @@ std::vector<State> actions (const State& state, int iplayer) {
 
   std::vector<State> ret;
   // Build player1's move set
-  for (size_t i = 0; i < SIZE; i++) {
-    for (size_t j = 0; j < SIZE; j++) {
+  for (ssize_t i = 0; i < SIZE; i++) {
+    for (ssize_t j = 0; j < SIZE; j++) {
       State next(&state, i, j);
       bool flag = false; // Have we flipped any pieces?
       if (next[i][j] == State::Value::FREE) {
         //Right
-        for (size_t k = i + 1; k < SIZE; k++) {
+        for (ssize_t k = i + 1; k < SIZE; k++) {
           if (next[k][j] == player) {
-            for (size_t l = i + 1; l < k; l++) {
+            for (ssize_t l = i + 1; l < k; l++) {
               next[l][j] = player;
             }
             flag = true;
@@ -247,9 +247,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Up+Right
-        for (size_t k = 1; i + k < SIZE && j + k < SIZE; k++) {
+        for (ssize_t k = 1; i + k < SIZE && j + k < SIZE; k++) {
           if (next[i + k][j + k] == player) {
-            for (size_t l = 1; l < k; l++) {
+            for (ssize_t l = 1; l < k; l++) {
               next[i + l][j + l] = player;
             }
             flag = true;
@@ -259,9 +259,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Up
-        for (size_t k = i + 1; k < SIZE; k++) {
+        for (ssize_t k = i + 1; k < SIZE; k++) {
           if (next[i][k] == player) {
-            for (size_t l = j + 1; l < k; l++) {
+            for (ssize_t l = j + 1; l < k; l++) {
               next[i][l] = player;
             }
             flag = true;
@@ -271,9 +271,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Up+Left
-        for (size_t k = 1; i - k >= 0 && j + k < SIZE; k++) {
+        for (ssize_t k = 1; i - k >= 0 && j + k < SIZE; k++) {
           if (next[i - k][j + k] == player) {
-            for (size_t l = 1; l < k; l++) {
+            for (ssize_t l = 1; l < k; l++) {
               next[i - l][j + l] = player;
             }
             flag = true;
@@ -283,9 +283,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Left
-        for (size_t k = i - 1; k >= 0; k--) {
+        for (ssize_t k = i - 1; k >= 0; k--) {
           if (next[k][j] == player) {
-            for (size_t l = i - 1; l > k; l--) {
+            for (ssize_t l = i - 1; l > k; l--) {
               next[l][j] = player;
             }
             flag = true;
@@ -295,9 +295,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Left+Down
-        for (size_t k = 1; i - k >= 0 && j - k >= 0; k--) {
+        for (ssize_t k = 1; i - k >= 0 && j - k >= 0; k--) {
           if (next[i - k][j - k] == player) {
-            for (size_t l = 1; l < k; l++) {
+            for (ssize_t l = 1; l < k; l++) {
               next[i - l][j - l] = player;
             }
             flag = true;
@@ -307,9 +307,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Down
-        for (size_t k = j - 1; k >= 0; k--) {
+        for (ssize_t k = j - 1; k >= 0; k--) {
           if (next[i][k] == player) {
-            for (size_t l = j - 1; l > k; l--) {
+            for (ssize_t l = j - 1; l > k; l--) {
               next[l][j] = player;
             }
             flag = true;
@@ -319,9 +319,9 @@ std::vector<State> actions (const State& state, int iplayer) {
             break;
         }
         //Down+Right
-        for (size_t k = 1; i + k < SIZE && j - k >= 0; k++) {
+        for (ssize_t k = 1; i + k < SIZE && j - k >= 0; k++) {
           if (next[i + k][j - k] == player) {
-            for (size_t l = 1; l < k; l++) {
+            for (ssize_t l = 1; l < k; l++) {
               next[i + l][j - l] = player;
             }
             flag = true;
@@ -339,7 +339,7 @@ std::vector<State> actions (const State& state, int iplayer) {
 }
 
 //Returns 1 if time is up
-int cutoffTest(State& state, int depth)
+int cutoffTest(int depth)
 {
 	clock_t now = clock();
 	if ((now - move_start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
@@ -369,10 +369,9 @@ void makeMove(int x, int y)
 std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int player)
 {
   std::pair<int, move> best;
-  int i;
   int value;
   std::vector<State> successors;
-  if(cutoffTest(state, depth)) {
+  if(cutoffTest(depth)) {
       makeMove(best.second.y, best.second.y);
       return best;
   }
@@ -381,8 +380,13 @@ std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int
   if (successors.size() == 0) {
     if (depth == 0)
     {
+<<<<<<< HEAD
 	makeMove(-1, -1); //Pass
 	return NULL;
+=======
+	makeMove(-1, -1);
+	return std::make_pair(player == 1 ? alpha : beta,  move{.x = -1, .y = -1});
+>>>>>>> 7ad1b727b432f3ab596a35b4863f7409d2464c44
     }
     else
       return alphaBeta(state, depth + 1, alpha, beta, -player);
@@ -406,6 +410,7 @@ std::pair<int, move> alphaBeta(State &state, int depth, int alpha, int beta, int
         return std::make_pair(alpha, move{.x = state.move[0], .y = state.move[1]});
     }
   }
+  return best;
 }
 
 int cost(State &state) {
@@ -413,6 +418,7 @@ int cost(State &state) {
   for(int i = 0; i<SIZE; i++)
     for (int j = 0; j<SIZE; j++)
       cost+=state[i][j];
+  return cost;
 }
 
 /*
