@@ -12,16 +12,14 @@ char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
 
-int currentState[SIZE][SIZE];
+State currentState;
 
 struct move {
      int x;
      int y;
 };
 
-
-
-void initBoard(int board[SIZE][SIZE])
+void initBoard(State board[SIZE][SIZE])
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
@@ -45,7 +43,10 @@ int readMove(struct move *opponent_move)
 
 void updateState(int [] [] board, int x, int y, player)
 {
-	currentState[x][y] = player;
+	currentState.board[x][y] = player;
+
+  
+  
 	return;
 }
 
@@ -174,6 +175,9 @@ int cutoffTest(State state, int depth)
 	return 0;
 }
 
+
+
+
 //Takes a pair of coordinates for the move
 //When x is set to -1, a pass is done
 void makeMove(int x, int y)
@@ -188,8 +192,6 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
     int i;
     int value;
     if(cutoffTest(state, depth))
@@ -199,7 +201,6 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
     }
     best = NULL; /* Handles early pruning or no possible moves */
     if(player == 1){ //max player
-=======
 	int i;
 	int value;
 	if(cutoffTest(state, depth))
@@ -209,14 +210,10 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
 	}
 	best = NULL; /* Handles early pruning or no possible moves */
 	if(player == 1){ //max player
->>>>>>> 2034313e5ec791ea2aa1496e3f291485a2dec9a3
     
     for(State action : actions(state, player)){ // This line requires C++11
       (child, unused) = result(state, action); //todo
       value = alphaBeta(child, depth+1, alpha, beta, -player);
-<<<<<<< HEAD
-=======
->>>>>>> 063cf5e763db3e7dbbddf1d8089de18891f92ed9
   static State best = NULL;
   int i;
   int value;
