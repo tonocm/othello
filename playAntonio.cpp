@@ -206,7 +206,6 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
     //pass
   }
   for(State action : successors){ // This line requires C++11
-    (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
     value = alphaBeta(child, depth+1, alpha, beta, -player);
     if(player == 1){ //max player 
       if(value > alpha){
