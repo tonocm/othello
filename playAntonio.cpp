@@ -366,7 +366,7 @@ void makeMove(int x, int y)
 }
 
 /* player 1 is max player, player -1 is min player */
-State alphaBeta(State state, int depth, int alpha, int beta, int player)
+State alphaBeta(State &state, int depth, int alpha, int beta, int player)
 {
   static State best = NULL;
   int i;
