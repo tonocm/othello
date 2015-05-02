@@ -1,4 +1,4 @@
-int SIZE = 8;
+const static int SIZE = 8;
 
 class State{
 public:
@@ -7,7 +7,8 @@ public:
     BLACK = -1,
     FREE = 0
   };
-	int move[2];
+
+  int move[2];
   State() : State(NULL){
 
   }
@@ -27,10 +28,8 @@ public:
     memcpy(move, s.move, sizeof(int) * 2);
   }
 
-  State(int board[SIZE][SIZE]){
-    for(int i = 0; i<SIZE; i++)
-      for(int j = 0; j<SIZE; j++)
-	_state[i][j] = board[i][j];
+  State(Value board[SIZE][SIZE]){
+    memcpy(_state, board, sizeof(Value) * SIZE * SIZE);
     parent = NULL;
     move[0] = move[1] = -1;
   }
@@ -40,5 +39,5 @@ public:
   }
 private:
   Value _state[SIZE][SIZE];
-  State *parent;
+  const State *parent;
 };
