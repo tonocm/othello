@@ -12,14 +12,14 @@ char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
 
-State currentState;
+State currentState(NULL, -1, -1);
 
 struct move {
      int x;
      int y;
 };
 
-void initBoard(State board[SIZE][SIZE])
+void initBoard(State& board)
 {
 	for(int i = 0; i<SIZE; i++)
 		for (int j = 0; j<SIZE; j++)
@@ -357,38 +357,23 @@ void makeMove(int x, int y)
 /* player 1 is max player, player -1 is min player */
 State alphaBeta(State state, int depth, int alpha, int beta, int player)
 {
-    int i;
-    int value;
-    if(cutoffTest(state, depth))
-    {
-	makeMove(best.move[0], best.move[1]);
-	return best;
-    }
-    best = NULL; /* Handles early pruning or no possible moves */
-    if(player == 1){ //max player
-	int i;
-	int value;
-	if(cutoffTest(state, depth))
-	{
-		makeMove(best.move[0], best.move[1]);
-		return best;
-	}
-	best = NULL; /* Handles early pruning or no possible moves */
-	if(player == 1){ //max player
-    
-    for(State action : actions(state, player)){ // This line requires C++11
-      (child, unused) = result(state, action); //todo
-      value = alphaBeta(child, depth+1, alpha, beta, -player);
   static State best = NULL;
   int i;
   int value;
+  vector<State> successors;
   if(cutoffTest(state, depth)) {
       makeMove(best.move[0], best.move[1]);
       return best;
   }
-  
-  for(State action : actions(state, player)){ // This line requires C++11
-    (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
+
+  successors = actions(state, player);
+  if (successors.size() == 0) {
+    if (depth == 0)
+      return PASS;
+    else
+      return alphaBeta(state, depth + 1, alpha, beta, -player);
+  }
+  for(State action : successors){ // This line requires C++11
     value = alphaBeta(child, depth+1, alpha, beta, -player);
     if(player == 1){ //max player 
       if(value > alpha){
@@ -396,7 +381,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha)  /* beta cut-off */
-        return alpha;
+        return beta;
     }
     else{ //min player
       if(value < beta){
@@ -404,7 +389,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha) /*alpha cut-off*/
-        return beta;
+        return alpha;
     }
   }
 }
@@ -483,11 +468,11 @@ int main()
     struct move enemy_move;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
     initBoard();
+	game_start = clock();
     if (COLOR == 'B')
     {
 	player = -1;
 	move_start = clock();
-	game_start = clock();
 	alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
     }
     else
