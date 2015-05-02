@@ -318,11 +318,11 @@ int main()
     struct move enemy_move;
     std::cin>>COLOR>>COLOR>>DEPTHLIMIT>>TIMELIMIT1>>TIMELIMIT2;
     initBoard();
+	game_start = clock();
     if (COLOR == 'B')
     {
 	player = -1;
 	move_start = clock();
-	game_start = clock();
 	alphaBeta(State s(currentState), 0, MAX_INT, MIN_INT, player);
     }
     else
