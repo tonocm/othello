@@ -369,7 +369,10 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
   successors = actions(state, player);
   if (successors.size() == 0) {
     if (depth == 0)
-      return PASS;
+    {
+	makeMove(-1, -1);
+	return NULL;
+    }
     else
       return alphaBeta(state, depth + 1, alpha, beta, -player);
   }
