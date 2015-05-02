@@ -341,7 +341,7 @@ std::vector<State> actions (const State& state, int plyr) {
 }
 
 //Returns 1 if time is up
-int cutoffTest(State state, int depth)
+int cutoffTest(State &state, int depth)
 {
 	clock_t now = clock();
 	if ((now - start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
@@ -368,7 +368,7 @@ void makeMove(int x, int y)
 }
 
 /* player 1 is max player, player -1 is min player */
-State alphaBeta(State state, int depth, int alpha, int beta, int player)
+State alphaBeta(State &state, int depth, int alpha, int beta, int player)
 {
   static State best = NULL;
   int i;
