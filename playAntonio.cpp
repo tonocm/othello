@@ -203,7 +203,10 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
 
   successors = actions(state, player);
   if (successors.size() == 0) {
-    //pass
+    if (depth == 0)
+      return PASS;
+    else
+      return alphaBeta(state, depth + 1, alpha, beta, -player);
   }
   for(State action : successors){ // This line requires C++11
     (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
