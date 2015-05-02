@@ -41,7 +41,7 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int x, int y, player)
+void updateState(int x, int y, int player)
 {
 	currentState[x][y] = player;
   int xx, yy, xxx, yyy;
