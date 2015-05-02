@@ -381,7 +381,7 @@ State alphaBeta(State &state, int depth, int alpha, int beta, int player)
   if (successors.size() == 0) {
     if (depth == 0)
     {
-	makeMove(-1, -1);
+	makeMove(-1, -1); //Pass
 	return NULL;
     }
     else
