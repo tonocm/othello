@@ -6,7 +6,6 @@
 #include <climits>
 #include "state.h"
 
-#define SIZE 8
 State best = NULL;
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;

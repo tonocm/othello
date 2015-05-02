@@ -1,4 +1,4 @@
-int SIZE = 8;
+const static int SIZE = 8;
 
 class State{
 public:
