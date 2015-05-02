@@ -20,10 +20,10 @@ export
 
 OBJECTS = $(patsubst %.cpp,%.o,$(notdir $(wildcard *.cpp)))
 
-all: Othello
+all: play
 
-Othello: $(OBJECTS)
-	$(CXX) $(LDFLAGS) -o Othello $(OBJECTS) $(LIBS)
+play: $(OBJECTS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
