@@ -193,7 +193,6 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
       makeMove(best.move[0], best.move[1]);
       return best;
   }
-
   for(State action : actions(state, player)){ // This line requires C++11
     (child, unused) = result(state, action); //todo What does this do?  Do we even need it?
     value = alphaBeta(child, depth+1, alpha, beta, -player);
