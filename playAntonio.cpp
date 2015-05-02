@@ -7,7 +7,7 @@
 #include "state.h"
 
 #define SIZE 8
-State best = NULL:
+State best = NULL;
 char COLOR;
 int DEPTHLIMIT, TIMELIMIT1, TIMELIMIT2;
 clock_t move_start, game_start, now;
