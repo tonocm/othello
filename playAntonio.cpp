@@ -216,7 +216,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha)  /* beta cut-off */
-        return alpha;
+        return beta;
     }
     else{ //min player
       if(value < beta){
@@ -224,7 +224,7 @@ State alphaBeta(State state, int depth, int alpha, int beta, int player)
         best = action;
       }
       if(beta <= alpha) /*alpha cut-off*/
-        return beta;
+        return alpha;
     }
   }
 }
