@@ -121,11 +121,11 @@ std::vector<State> actions (const State& state, int iplayer) {
 int cutoffTest(int depth)
 {
 	clock_t now = clock();
-	if ((now - move_start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
+	if (TIMELIMIT1 > 0 && (now - move_start) / (CLOCKS_PER_SEC/1000) >= TIMELIMIT1)
 		return 1;
-	if((now - game_start) / (CLOCKS_PER_SEC/1000) >=TIMELIMIT2)
+	if(TIMELIMIT2 > 0 && (now - game_start) / (CLOCKS_PER_SEC/1000) >=TIMELIMIT2)
 		return 1;
-	if (depth>DEPTHLIMIT)
+	if (DEPTHLIMIT > 0 && depth>DEPTHLIMIT)
 		return 1;
 	return 0;
 }
