@@ -41,7 +41,7 @@ int readMove(struct move *opponent_move)
 	}
 }
 
-void updateState(int x, int y, player)
+void updateState(int x, int y, int player)
 {
 	currentState[x][y] = player;
 	return;
@@ -171,6 +171,9 @@ int cutoffTest(State state, int depth)
 		return 1;
 	return 0;
 }
+
+
+
 
 //Takes a pair of coordinates for the move
 //When x is set to -1, a pass is done
