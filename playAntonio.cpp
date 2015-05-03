@@ -270,6 +270,7 @@ std::pair<int, move> alphaBeta(State &state, int depth, int limit, int alpha, in
             return alphaBeta(state, depth + 1, limit, alpha, beta, -player);
     }
     for(State& action : successors){ // This line requires C++11
+        // This for loop could run in parallel (At least for the top one or two calls)
         // printboard(action, player, depth, action.move[0], action.move[1]);
         value = alphaBeta(action, depth + 1, limit, alpha, beta, -player).first;
         if(player == 1){ //max player 
